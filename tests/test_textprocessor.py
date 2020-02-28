@@ -1,7 +1,7 @@
-from dlcommon.util.text import TextProcesser, CommonPattern
+from dlcommon.util.text import TextProcesser, CommonCharset
 
 processer = TextProcesser()
-processer.keep(CommonPattern.ZH).keep(CommonPattern.STOP_PUNC).keep(CommonPattern.NUMBER).remove('丶')
+processer.keep(CommonCharset.ZH).keep(CommonCharset.STOP_PUNC).keep(CommonCharset.NUMBER).remove('丶')
 
 with open('text_test_cases.txt', 'r') as f:
     lines = f.readlines()
