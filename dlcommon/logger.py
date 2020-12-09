@@ -4,6 +4,32 @@ import torch
 import torchvision
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
+import logging
+import time
+import sys
+
+class TextLogger(object):
+    def __init__(self, rank, save):
+        self.rank = rank
+        if self.rank == 0:
+            log_format = '%(asctime)s %(message)s'
+            logging.basicConfig(stream=sys.stdout, level=logging.INFO,
+                                format=log_format, datefmt='%m/%d %I:%M:%S %p')
+            fh = logging.FileHandler(os.path.join(save, 'log.txt'))
+            fh.setFormatter(logging.Formatter(log_format))
+            logging.getLogger().addHandler(fh)
+            self.start_time = time.time()
+
+    def info(self, string, *args):
+        if self.rank == 0:
+            elapsed_time = time.time() - self.start_time
+            elapsed_time = time.strftime(
+                '(Elapsed: %H:%M:%S) ', time.gmtime(elapsed_time))
+            if isinstance(string, str):
+                string = elapsed_time + string
+            else:
+                logging.info(elapsed_time)
+            logging.info(string, *args)
 
 
 class TensorboardLogger:
@@ -47,7 +73,3 @@ class TensorboardLogger:
     def load_state_dict(state_dict):
         return TensorboardLogger(log_dir=state_dict['log_dir'],
                                  global_step=state_dict['global_step'])
-
-
-class TextLogger:
-    pass

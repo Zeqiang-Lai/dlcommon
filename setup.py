@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="dlcommon",
-    version="0.0.1",
+    version="0.0.2",
     author="Zeqiang Lai",
     author_email="laizeqiang@outlook.com",
     description="Common utils for deep learning projects",
